@@ -1,0 +1,554 @@
+<html>
+{% load staticfiles %}
+<head>
+    <title>美度图书</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="keywords" content="">
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <link href="{% static 'css/bootstrap.css' %}" type="text/css" rel="stylesheet" media="all">
+    <link href="{% static 'css/shop.css' %}" type="text/css" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="{% static 'css/flexslider.css' %}" type="text/css" media="screen">
+    <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="all">
+    <link href="{% static 'css/footer4.css' %}" type="text/css" rel="stylesheet" media="all">
+    <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Fredericka+the+Great" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Merriweather+Sans:300,300i,400,400i,700,700i,800,800i"
+          rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i"
+          rel="stylesheet">
+</head>
+
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+<div id="home">
+
+
+    <nav class="navbar navbar-default navbar-fixed-top top-nav-collapse">
+        <div class="main-nav">
+            <div class="container">
+
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">美度图书</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <h1>
+                        <a class="navbar-brand" href="{% url 'operation:index' %}">美度图书</a>
+                    </h1>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-ex1-collapse nav-right">
+                    <ul class="nav navbar-nav navbar-left cl-effect-15">
+
+                        <li class="hidden active">
+                            <a class="page-scroll" href="#page-top"></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'operation:index' %}">首页</a>
+                        </li>
+                        <li class="">
+                            <a href="{% url 'operation:about' %}">关于我们</a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle effect-3" data-toggle="dropdown">书城
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu" style="display: none;">
+                                <li>
+                                    <a href="{% url 'operation:shop' %}">书目</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'operation:checkout' %}">心愿单</a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'operation:contact' %}">联系我们</a>
+                        </li>
+                             {% if isLogin %}
+                            <li class="dropdown">
+
+                                <a href="#" class="dropdown-toggle effect-3"
+                                   data-toggle="dropdown">{{ userInfo.nickname }}
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu" style="display: none;">
+                                    <li>
+                                        {#                                    用户头像#}
+                                        <img src="{{ userInfo.avatar.url }}" style="max-width: 50%;"
+                                             class="text-center img-circle img-responsive"/>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'user:center' %}">个人信息</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'operation:rental' 1 %}">租借信息</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'user:logout' %}">登出</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="{% url 'operation:login' %}" title="登录 &amp; 注册">
+                                    <span class="fa fa-user nav-icon" aria-hidden="true"></span>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                    </ul>
+
+                    <div class="search-bar-agileits">
+                        <div class="cd-main-header">
+                            <ul class="cd-header-buttons">
+                                <li>
+                                    <a class="cd-search-trigger" href="#cd-search">
+                                        <span></span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <div id="cd-search" class="cd-search">
+                            <form action="{% url 'operation:search' %}" method="post">
+                                {% csrf_token %}
+                                <input name="search" type="search" placeholder="请输入书名或作者">
+                            </form>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+    </nav>
+
+
+    <div class="banner-bg-inner">
+
+        <div class="banner-text-inner">
+            <div class="container">
+                <h2 class="title-inner">
+                    图书世界
+                </h2>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="crumbs text-center">
+        <div class="container">
+            <div class="row">
+                <ul class="btn-group btn-breadcrumb bc-list">
+                    <li class="btn btn1">
+                        <a href="{% url 'operation:index' %}">
+                            <i class="glyphicon glyphicon-home"></i>
+                        </a>
+                    </li>
+                    <li class="btn btn2">
+                        <a href="{% url 'operation:shop' %}">书目</a>
+                    </li>
+                    <li class="btn btn3">
+                        <a href="{% url 'operation:single_product' book_info.ISBN %}">详情页</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="innerf-pages section">
+        <div class="container">
+            <div class="col-md-4 single-right-left ">
+                <div class="grid images_3_of_2">
+                    <div class="flexslider1">
+                        <ul class="slides">
+                            {% for image in book_images %}
+                            <li data-thumb="{{ image.image.url }}">
+                                <div class="thumb-image">
+                                    <img src="{{ image.image.url }}" data-imagezoom="true" alt=" "
+                                         class="img-responsive">
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-8 single-right-left simpleCart_shelfItem">
+                <h3>{{ book_info.name }}
+{#                    <span>Hardcover – Feb 2018</span>#}
+                </h3>
+                <p>
+                    <a href="#">{{ book_info.author }}</a>
+                </p>
+                <div class="caption">
+{#                    {{ book_info.r }}#}
+{#                    <ul class="rating-single">#}
+{#                        <li>#}
+{#                            <a href="#">#}
+{#                                <span class="fa fa-star yellow-star" aria-hidden="true"></span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li>#}
+{#                            <a href="#">#}
+{#                                <span class="fa fa-star yellow-star" aria-hidden="true"></span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li>#}
+{#                            <a href="#">#}
+{#                                <span class="fa fa-star yellow-star" aria-hidden="true"></span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li>#}
+{#                            <a href="#">#}
+{#                                <span class="fa fa-star yellow-star" aria-hidden="true"></span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li>#}
+{#                            <a href="#">#}
+{#                                <span class="fa fa-star yellow-star" aria-hidden="true"></span>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                    </ul>#}
+                    <div class="clearfix"></div>
+                    <h6></h6>
+{#                        $100.00</h6>#}
+                </div>
+                <div class="desc_single">
+                    <h5>简介</h5>
+                    <p>{{ book_info.introduction }}</p>
+                </div>
+                <div class="occasional">
+                    <h5>其他</h5>
+                    <ul class="single_specific">
+                        <li>
+                            <span>类别</span> {{ book_info.get_category_display }}
+                        </li>
+                        <li>
+                            <span>ISBN :</span> {{ book_info.ISBN }}
+                        </li>
+                        <li>
+                            <span>出版社 :</span> {{ book_info.publishing_company }}
+                        </li>
+                        <li>
+                            <span>上架时间 :</span> {{ book_info.added_time }}
+                        </li>
+                        <li>
+                            <span>现存数量 :</span> {{ book_info.number_of_existing }}
+                        </li>
+                    </ul>
+
+                </div>
+{#                <div class="color-quality">#}
+{#                    <div class="color-quality-right">#}
+{#                        <h5>Also Formats avaiable in:</h5>#}
+{#                        <select id="country1" onchange="change_country(this.value)" class="frm-field required sect">#}
+{#                            <option value="null">paper back &nbsp;$90.00</option>#}
+{#                            <option value="null">Audio Book &nbsp;$200.00</option>#}
+{#                        </select>#}
+{#                    </div>#}
+{#                </div>#}
+                <div class="clearfix"></div>
+{#                <div class="description">#}
+{#                    <h5>Check delivery, payment options and charges at your location</h5>#}
+{#                    <form action="#" method="post">#}
+{#                        <input type="text" value="Enter pincode" onfocus="this.value = '';"#}
+{#                               onblur="if (this.value == '') {this.value = 'Enter pincode';}"#}
+{#                               required="">#}
+{#                        <input type="submit" value="Check">#}
+{#                    </form>#}
+{#                </div>#}
+                <div class="occasion-cart">
+                    <div class="chr single-item single_page_b">
+                        <form action="{% url 'operation:checkout' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="ISBN" value="{{ book_info.ISBN }}"/>
+{#                            <input type="hidden" name="cmd" value="_cart">#}
+{#                            <input type="hidden" name="add" value="1">#}
+{#                            <input type="hidden" name="chr_item" value="Single book">#}
+{#                            <input type="hidden" name="amount" value="100.00">#}
+                            <button type="submit" class="chr-cart pchr-cart">
+                                <i class="fa fa-cart-plus" aria-hidden="true"></i>添加到心愿单
+                            </button>
+                            <a href="#" data-toggle="modal" data-target="#myModal1"></a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- /new_arrivals -->
+    <div class="section singlep_btm">
+        <div class="container">
+            <div class="new_arrivals">
+                <h4 class="rad-txt">
+                    <span class="abtxt1">同类</span>
+                    <span class="abtext">书目</span>
+                </h4>
+                {% for same_book in same_category_books_result %}
+                    <div class="col-md-3 product-men">
+                        <div class="product-chr-info chr">
+                            <div class="thumbnail">
+                                <a href="{% url 'operation:single_product' same_book.ISBN %}">
+                                    <img src="{{ same_book.image }}" alt="">
+                                </a>
+                            </div>
+                            <div class="caption">
+                                <h4>{{ same_book.name }}</h4>
+                                <p>{{ same_book.author }}</p>
+                                <div class="matrlf-mid">
+                                    <ul class="rating">
+{#                                        yellow是应该的星星书目#}
+                                        {% for i in same_book.starNum %}
+                                        <li>
+                                            <a href="#">
+                                                <span class="fa fa-star yellow-star" aria-hidden="true"></span>
+                                            </a>
+                                        </li>
+                                        {% endfor %}
+                                        {% for i in same_book.otherNum %}
+                                        <li>
+                                            <a href="#">
+                                                <span class="fa fa-star gray-star" aria-hidden="true"></span>
+                                            </a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                    <ul class="price-list">
+                                        <li>
+                                        现存 {{ same_book.number_of_existing }} 本
+                                        </li>
+                                        <li>
+                                        共计 {{ same_book.all_count }} 本
+                                        </li>
+                                    </ul>
+
+                                    <div class="clearfix"></div>
+                                </div>
+                                <form action="{% url 'operation:checkout' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="ISBN" value="{{ same_book.ISBN }}">
+                                    <button type="submit" class="chr-cart pchr-cart">添加到心愿单
+                                        <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                                    </button>
+                                    <a href="#" data-toggle="modal" data-target="#myModal1"></a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="clearfix"></div>
+            </div>
+            <!--//new_arrivals-->
+            <div class="clearfix"></div>
+
+        </div>
+    </div>
+
+
+    <div class="footerv4-top">
+        <div class="container">
+            <ul class="bottom-links-agile">
+                <li>
+                    <a href="{% url 'operation:index' %}">首页</a>
+                </li>
+                <li>
+                    <a href="{% url 'operation:about' %}">关于我们</a>
+                </li>
+                <li>
+                    <a href="{% url 'operation:shop' %}">书城</a>
+                </li>
+                <li>
+                    <a href="{% url 'operation:contact' %}">联系我们</a>
+                </li>
+                <li>
+                    {% if isLogin %}
+                        <a href="{% url 'user:center' %}" class="text-right">个人中心</a>
+                    {% else %}
+                        <a href="{% url 'operation:login' %}" class="text-right">登录</a>
+                    {% endif %}
+                </li>
+
+            </ul>
+
+
+            <div class="col-md-3 col-sm-6 footv4-left">
+                <h3>关于我们</h3>
+                <h4>
+                    <a href="{% url 'operation:index' %}">美度图书</a>
+                </h4>
+                <p>美好度过阅读时光</p>
+
+
+            </div>
+            <div class="col-md-3 col-sm-6 footv4-content">
+                <h3>推荐类别</h3>
+                {#            #}
+                {#            ('youth', '青春'), ('art', '艺术'), ('fiction', '小说')] [('11', '测试1', datetime.date(2020, 4, 10)), ('511', '测试2', datetime.date(2020, 4, 10)), ('32162', '测试3',#}
+                {#datetime.date(2020, 4, 10)), ('6436', '测试4', datetime.date(2020, 4, 8))#}
+                <!--          根据推荐数生成类别-->
+                <ul class="v4-content">
+                    {% for category in category_list %}
+                        <li>
+                            <a href="{% url 'operation:shop_categories' category.0 %}">{{ category.1 }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-3 footv4-left fv4-g3">
+                <h3>最新藏书</h3>
+                <ul class="v4-rel">
+                    {% for book_info in last_book_info_list %}
+                        <li>
+                            <a href="{% url 'operation:single_product' book_info.0 %}">
+                                {{ book_info.1 }}
+                            </a>
+                            <p>{{ book_info.2 }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-3 footv4-left">
+                <!--          如果已经存在，那么直接返回详情页，否则装入预订单-->
+                <h3>找不到想要的?</h3>
+                <form action="{% url 'operation:wish' %}" method="post">
+                    {% csrf_token %}
+                    <input type="text" placeholder="书名" name="name" style="color: black;" required>
+                    <input type="text" placeholder="作者" name="author" style="color: black;" required>
+                    <input type="text" placeholder="更多书籍信息" name="other" style="color: black;" required>
+                    <input type="submit" value="提交">
+                </form>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <div class="cpy-right">
+        <p>Copyright © 2020.Company name All rights reserved.
+        </p>
+    </div>
+</div>
+
+
+<script src="{% static 'js/jquery-2.2.3.min.js' %}"></script>
+
+
+<script src="{% static 'js/minicart.js' %}"></script>
+<script>
+    chr.render();
+
+    chr.cart.on('chr_checkout', function (evt) {
+        var items, len, i;
+
+        if (this.subtotal() > 0) {
+            items = this.items();
+
+            for (i = 0, len = items.length; i < len; i++) {
+            }
+        }
+    });
+</script>
+
+
+<script src="{% static 'js/imagezoom.js' %}"></script>
+
+
+<script src="{% static 'js/jquery.flexslider.js' %}"></script>
+<script>
+    // Can also be used with $(document).ready()
+    $(window).load(function () {
+        $('.flexslider1').flexslider({
+            animation: "slide",
+            controlNav: "thumbnails"
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $(".dropdown").hover(
+            function () {
+                $('.dropdown-menu', this).stop(true, true).slideDown("fast");
+                $(this).toggleClass('open');
+            },
+            function () {
+                $('.dropdown-menu', this).stop(true, true).slideUp("fast");
+                $(this).toggleClass('open');
+            }
+        );
+    });
+</script>
+
+
+<script src="{% static 'js/main.js' %}"></script>
+
+
+<script src="{% static 'js/scrolling-nav.js' %}"></script>
+
+
+<script src="{% static 'js/bootstrap.js' %}"></script>
+
+<script src="{% static 'js/move-top.js' %}"></script>
+<script src="{% static 'js/easing.js' %}"></script>
+<script>
+    jQuery(document).ready(function ($) {
+        $(".scroll").click(function (event) {
+            event.preventDefault();
+            $('html,body').animate({
+                scrollTop: $(this.hash).offset().top
+            }, 1000);
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        /*
+          var defaults = {
+          containerID: 'toTop', // fading element id
+          containerHoverID: 'toTopHover', // fading element hover id
+          scrollSpeed: 1200,
+          easingType: 'linear'
+          };
+        */
+
+        $().UItoTop({
+            easingType: 'easeOutQuart'
+        });
+
+    });
+</script>
+
+
+<script src="{% static 'js/SmoothScroll.min.js' %}"></script>
+
+<a href="#" id="toTop" style="display: none;"><span id="toTopHover"></span>To Top</a></body>
+{#<a href="#" id="toTop" style="display: block;"><span id="toTopHover"></span><span id="toTopHover"></span>To Top</a><a#}
+{#  href="#" id="toTop">To Top</a></body>#}
+</html>

@@ -1,0 +1,386 @@
+<html>
+{% load staticfiles %}
+<head>
+    <title>美度图书</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="keywords" content="">
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <link href="{% static 'css/footer4.css' %}" type="text/css" rel="stylesheet" media="all">
+    <link href="{% static 'css/bootstrap.css' %}" type="text/css" rel="stylesheet" media="all">
+    <link href="{% static 'css/shop.css' %}" type="text/css" rel="stylesheet" media="all">
+    <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="all">
+    <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Fredericka+the+Great" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Merriweather+Sans:300,300i,400,400i,700,700i,800,800i"
+          rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i"
+          rel="stylesheet">
+</head>
+
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+<div id="home">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="main-nav">
+            <div class="container">
+
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">美度图书</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <h1>
+                        <a class="navbar-brand" href="{% url 'operation:index' %}">美度图书</a>
+                    </h1>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-ex1-collapse nav-right">
+                    <ul class="nav navbar-nav navbar-left cl-effect-15">
+
+                        <li class="hidden active">
+                            <a class="page-scroll" href="#page-top"></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'operation:index' %}">首页</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'operation:about' %}">关于我们</a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle effect-3" data-toggle="dropdown">书城
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu" style="display: none;">
+                                <li>
+                                    <a href="{% url 'operation:shop' %}">书目</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'operation:checkout' %}">心愿单</a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'operation:contact' %}">联系我们</a>
+                        </li>
+                        <li>
+                            <a href="
+                                    {% if not isLogin %}{% url 'operation:login' %}{% else %}{% url 'user:center' %}{% endif %}"
+                               title="{% if not isLogin %}登录 &amp; 注册{% else %}进入个人中心{% endif %}">
+                                <span class="fa fa-user nav-icon" aria-hidden="true">
+{#                                    <img src="{% static 'images/banner.jpg' %}" class="fa fa-user nav-icon" aria-hidden="true"/>#}
+                                </span>
+                            </a>
+                        </li>
+
+                    </ul>
+
+                    <div class="search-bar-agileits">
+                        <div class="cd-main-header">
+                            <ul class="cd-header-buttons">
+                                <li>
+                                    <a class="cd-search-trigger" href="#">
+                                        <span></span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <div id="cd-search" class="cd-search">
+                            <form action="{% url 'operation:search' %}" method="post">
+                                {% csrf_token %}
+                                <input name="search" type="search" placeholder="请输入书名或作者">
+                            </form>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+    </nav>
+
+
+    <div class="banner-bg-inner">
+
+        <div class="banner-text-inner">
+            <div class="container">
+                <h2 class="title-inner">
+                    图书世界
+                </h2>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="crumbs text-center">
+        <div class="container">
+            <div class="row">
+                <ul class="btn-group btn-breadcrumb bc-list">
+                    <li class="btn btn1">
+                        <a href="{% url 'operation:index' %}">
+                            <i class="glyphicon glyphicon-home"></i>
+                        </a>
+                    </li>
+                    <li class="btn btn2">
+                        <a href="{% url 'operation:forgot' %}">忘记密码</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="login-form section text-center">
+        <div class="container">
+
+                    <div style="padding-top:30px" class="panel-body">
+                        <form enctype="multipart/form-data" class="form-horizontal"
+                              action="{% url 'operation:forgot' %}" method="post">
+                             {% csrf_token %}
+                            <div id="signupalert" style="display:none" class="alert alert-danger">
+                                <span></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 col-sm-3 col-xs-3 control-label">账号</label>
+                                <div class="col-md-9 col-sm-9 col-xs-9">
+                                    <input type="text" class="form-control" name="account" maxlength="13" required=""
+                                           id="id_account" placeholder="账号(6-13位)" autocomplete=""
+                                           minlength="6">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-md-3 col-sm-3 col-xs-3 control-label">密保问题</label>
+                                <div class="col-md-9 col-sm-9 col-xs-9">
+                                    <select class="form-control" name="security_question" id="id_security_question">
+                                        <option value="name" selected="">您目前的姓名是?</option>
+
+                                        <option value="spouse">您配偶的姓名是?</option>
+
+                                        <option value="id">您的学号(工号)是?</option>
+
+                                        <option value="mother">您母亲的姓名是?</option>
+
+                                        <option value="father">您父亲的姓名是?</option>
+
+                                        <option value="friend">您最好的朋友姓名是?</option>
+
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-3 col-sm-3 col-xs-3 control-label">答案</label>
+                                <div class="col-md-9 col-sm-9 col-xs-9">
+                                    <input type="text" class="form-control" name="answer" maxlength="20" required=""
+                                           id="id_answer" placeholder="答案(最长不超过20个字符)" autocomplete=""/>
+                                </div>
+                            </div>
+                              <div class="form-group">
+                                <label class="col-md-3 col-sm-3 col-xs-3 control-label">密码</label>
+                                <div class="col-md-9 col-sm-9 col-xs-9">
+                                    <input type="password" class="form-control" name="password" minlength="6" maxlength="12"
+                                           required id="id_password" placeholder="密码(6-12位)">
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                                <div class="signup-btn">
+                                    <button id="btn-signup" type="submit" class="btn btn-info">
+                                        <i class="icon-hand-right"></i> &nbsp; 提交
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="footerv4-top">
+    <div class="container">
+        <ul class="bottom-links-agile">
+            <li>
+                <a href="{% url 'operation:index' %}">首页</a>
+            </li>
+            <li>
+                <a href="{% url 'operation:about' %}">关于我们</a>
+            </li>
+            <li>
+                <a href="{% url 'operation:shop' %}">书城</a>
+            </li>
+            <li>
+                <a href="{% url 'operation:contact' %}">联系我们</a>
+            </li>
+            <li>
+                {% if isLogin %}
+                    <a href="{% url 'user:center' %}" class="text-right">个人中心</a>
+                {% else %}
+                    <a href="{% url 'operation:login' %}" class="text-right">登录</a>
+                {% endif %}
+            </li>
+
+        </ul>
+
+
+        <div class="col-md-3 col-sm-6 footv4-left">
+            <h3>关于我们</h3>
+            <h4>
+                <a href="{% url 'operation:index' %}">美度图书</a>
+            </h4>
+            <p>美好度过阅读时光</p>
+
+
+        </div>
+        <div class="col-md-3 col-sm-6 footv4-content">
+            <h3>推荐类别</h3>
+            {#            #}
+            {#            ('youth', '青春'), ('art', '艺术'), ('fiction', '小说')] [('11', '测试1', datetime.date(2020, 4, 10)), ('511', '测试2', datetime.date(2020, 4, 10)), ('32162', '测试3',#}
+            {#datetime.date(2020, 4, 10)), ('6436', '测试4', datetime.date(2020, 4, 8))#}
+            <!--          根据推荐数生成类别-->
+            <ul class="v4-content">
+                {% for category in category_list %}
+                    <li>
+                        <a href="{% url 'operation:shop_categories' category.0 %}">{{ category.1 }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-3 footv4-left fv4-g3">
+            <h3>最新藏书</h3>
+            <ul class="v4-rel">
+                {% for book_info in last_book_info_list %}
+                    <li>
+                        <a href="{% url 'operation:single_product' book_info.0 %}">
+                            {{ book_info.1 }}
+                        </a>
+                        <p>{{ book_info.2 }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-3 footv4-left">
+            <!--          如果已经存在，那么直接返回详情页，否则装入预订单-->
+            <h3>找不到想要的?</h3>
+            <form action="{% url 'operation:wish' %}" method="post">
+                {% csrf_token %}
+                <input type="text" placeholder="书名" name="name" style="color: black;" required>
+                <input type="text" placeholder="作者" name="author" style="color: black;" required>
+                <input type="text" placeholder="更多书籍信息" name="other" style="color: black;" required>
+                <input type="submit" value="提交">
+            </form>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<div class="cpy-right">
+    <p>Copyright © 2020.Company name All rights reserved.
+    </p>
+</div>
+
+
+<script src="{% static 'js/jquery-2.2.3.min.js' %}"></script>
+
+
+<script src="{% static 'js/main.js' %}"></script>
+
+
+<script src="{% static 'js/minicart.js' %}"></script>
+<script>
+    chr.render();
+
+    chr.cart.on('new_checkout', function (evt) {
+        var items, len, i;
+
+        if (this.subtotal() > 0) {
+            items = this.items();
+
+            for (i = 0, len = items.length; i < len; i++) {
+            }
+        }
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $(".dropdown").hover(
+            function () {
+                $('.dropdown-menu', this).stop(true, true).slideDown("fast");
+                $(this).toggleClass('open');
+            },
+            function () {
+                $('.dropdown-menu', this).stop(true, true).slideUp("fast");
+                $(this).toggleClass('open');
+            }
+        );
+    });
+</script>
+
+
+<script src="{% static 'js/scrolling-nav.js' %}"></script>
+
+
+<script src="{% static 'js/move-top.js' %}"></script>
+<script src="{% static 'js/easing.js' %}"></script>
+<script>
+    jQuery(document).ready(function ($) {
+        $(".scroll").click(function (event) {
+            event.preventDefault();
+
+            $('html,body').animate({
+                scrollTop: $(this.hash).offset().top
+            }, 1000);
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        /*
+        var defaults = {
+            containerID: 'toTop', // fading element id
+            containerHoverID: 'toTopHover', // fading element hover id
+            scrollSpeed: 1200,
+            easingType: 'linear'
+        };
+        */
+
+        $().UItoTop({
+            easingType: 'easeOutQuart'
+        });
+
+    });
+</script>
+<script src="{% static 'js/SmoothScroll.min.js' %}"></script>
+
+
+<script src="{% static 'js/bootstrap.js' %}"></script>
+
+
+<a href="#" id="toTop" style="display: none;"><span id="toTopHover"></span>To Top</a></body>
+</html>

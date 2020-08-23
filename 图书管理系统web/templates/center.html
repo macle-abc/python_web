@@ -1,0 +1,512 @@
+﻿<html>
+{% load staticfiles %}
+<head>
+    <title>美度图书</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="keywords" content="">
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <link href="{% static 'css/footer4.css' %}" type="text/css" rel="stylesheet" media="all">
+    <link href="{% static 'css/bootstrap.css' %}" type="text/css" rel="stylesheet" media="all">
+    <link href="{% static 'css/shop.css' %}" type="text/css" rel="stylesheet" media="all">
+    <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="all">
+    <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Fredericka+the+Great" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Merriweather+Sans:300,300i,400,400i,700,700i,800,800i"
+          rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i"
+          rel="stylesheet">
+</head>
+
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+<div id="home">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="main-nav">
+            <div class="container">
+
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">美度图书</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <h1>
+                        <a class="navbar-brand" href="{% url 'operation:index' %}">美度图书</a>
+                    </h1>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-ex1-collapse nav-right">
+                    <ul class="nav navbar-nav navbar-left cl-effect-15">
+
+                        <li class="hidden active">
+                            <a class="page-scroll" href="#page-top"></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'operation:index' %}">首页</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'operation:about' %}">关于我们</a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle effect-3" data-toggle="dropdown">书城
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu" style="display: none;">
+                                <li>
+                                    <a href="{% url 'operation:shop' %}">书目</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'operation:checkout' %}">心愿单</a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'operation:contact' %}">联系我们</a>
+                        </li>
+                        <li class="dropdown">
+
+                            <a href="#" class="dropdown-toggle effect-3" data-toggle="dropdown">{{ userInfo.nickname }}
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu" style="display: none;">
+                                <li>
+                                    {#                                    用户头像#}
+                                    <img src="{{ userInfo.avatar.url }}" style="max-width: 50%;" class="text-center img-circle img-responsive"/>
+                                </li>
+                                <li>
+                                    <a href="{% url 'user:center' %}">个人信息</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'operation:rental' 1 %}">租借信息</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'user:logout' %}">登出</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+
+                    <div class="search-bar-agileits">
+                        <div class="cd-main-header">
+                            <ul class="cd-header-buttons">
+                                <li>
+                                    <a class="cd-search-trigger" href="#">
+                                        <span></span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <div id="cd-search" class="cd-search">
+                            <form action="{% url 'operation:search' %}" method="post">
+                                {% csrf_token %}
+                                <input name="search" type="search" placeholder="请输入书名或作者">
+                            </form>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+    </nav>
+
+
+    <div class="banner-bg-inner">
+
+        <div class="banner-text-inner">
+            <div class="container">
+                <h2 class="title-inner">
+                    图书世界
+                </h2>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="crumbs text-center">
+        <div class="container">
+            <div class="row">
+                <ul class="btn-group btn-breadcrumb bc-list">
+                    <li class="btn btn1">
+                        <a href="{% url 'operation:index' %}">
+                            <i class="glyphicon glyphicon-home"></i>
+                        </a>
+                    </li>
+                    <li class="btn btn2">
+                        <a href="{% url 'user:center' %}">个人中心</a>
+                    </li>
+                    <li class="btn btn3">
+                        <a href="{% url 'user:center' %}">个人信息</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="tabbable" id="tabs-64903">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#panel-45577" data-toggle="tab">账户信息</a>
+                        </li>
+                        <li>
+                            <a href="#panel-189734" data-toggle="tab">密保安全</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="panel-45577">
+                            <p>
+                            <div class="panel-body">
+                                <form id="signupform" enctype="multipart/form-data" class="form-horizontal"
+                                      action="{% url 'user:center_type' 'user' %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="container-fluid">
+                                        <div class="row-fluid">
+                                            <div class="span4">
+                                                <div class="container-fluid">
+                                                    <div class="row-fluid">
+                                                        <div class="span2">
+                                                            <div class="edit-profile-photo">
+                                                                <img alt="140x140"
+                                                                     style="max-width: 20%;"
+                                                                     src="{{ userInfo.avatar.url }}"
+                                                                     class="img-fluid img-circle img-responsive"/>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="span10">
+                                                            <div class="form-group">
+                                                                <label class="col-md-3 col-sm-3 col-xs-3 control-label">新头像</label>
+                                                                <div class="col-md-9 col-sm-9 col-xs-9">
+                                                                    <input type="file" class="file-upload" name="avatar"
+                                                                           accept="image/*"
+                                                                           id="id_avatar">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="span8">
+                                                <div class="form-group">
+                                                    <label class="col-md-3 col-sm-3 col-xs-3 control-label">昵称</label>
+                                                    <div class="col-md-9 col-sm-9 col-xs-9">
+                                                        <input type="text" class="form-control" name="nickname"
+                                                               maxlength="20"
+                                                               title="最长不超过20个字符"
+                                                               id="id_nickname" placeholder="昵称(最长不超过20个字符)"
+                                                               value="{{ userInfo.nickname }}"
+                                                               autocomplete=""/>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 col-sm-3 col-xs-3 control-label">邮箱</label>
+                                                    <div class="col-md-9 col-sm-9 col-xs-9">
+                                                        <input type="email" name="email" maxlength="254"
+                                                               id="id_email"
+                                                               value="{{ userInfo.email }}"
+                                                               title="邮箱"
+                                                               class="form-control" placeholder="邮箱" autocomplete=""/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 col-sm-3 col-xs-3 control-label">身份证号</label>
+                                                    <div class="col-md-9 col-sm-9 col-xs-9">
+                                                        <input type="text" class="form-control" name="id_number"
+                                                               minlength="18"
+                                                               maxlength="18"  id="id_id_number"
+                                                               value="{{ userInfo.id_number }}"
+                                                               placeholder="身份证号"
+                                                               title="18位有效身份证号"
+                                                               autocomplete=""/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 col-sm-3 col-xs-3 control-label">性别</label>
+                                                    <div class="col-md-9 col-sm-9 col-xs-9">
+                                                        <select class="form-control" name="sex"  id="id_sex">
+                                                            <option value="" selected="">---------</option>
+
+                                                            <option value="m">男</option>
+
+                                                            <option value="w">女</option>
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 col-sm-3 col-xs-3 control-label"></label>
+                                                    <div class="col-md-9 col-sm-9 col-xs-9">
+                                                        <input type="submit" class="btn btn-info" value="修改"/>
+                                                    </div>
+                                                </div>
+                                                <div style="border-top: 1px solid #999; padding-top:20px"
+                                                     class="form-group">
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                            </p>
+                        </div>
+                        <div class="tab-pane" id="panel-189734">
+                            <p>
+                                {#							第二部分内容.#}
+                            <form class="form-horizontal" action="{% url 'user:center_type' 'safe' %}" method="post">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label class="col-md-3 col-sm-3 col-xs-3 control-label">更新密保问题</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-9">
+                                        <select class="form-control" id="id_security_question" name="security_question">
+                                            <option selected="selected" value="name">您目前的姓名是?</option>
+                                            <option value="spouse">您配偶的姓名是?</option>
+                                            <option value="id">您的学号(工号)是?</option>
+                                            <option value="mother">您母亲的姓名是?</option>
+                                            <option value="father">您父亲的姓名是?</option>
+                                            <option value="friend">您最好的朋友姓名是?</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-sm-3 col-xs-3 control-label">更新答案</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-9">
+                                        <input class="form-control" id="id_answer" maxlength="20" name="answer"
+                                               title="最大长度不超过20个字符"
+                                               type="text"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-sm-3 col-xs-3 control-label">原始密码</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-9">
+                                        <input class="form-control" id="id_password" maxlength="12" name="oldpassword"
+                                               title="最大长度不超过12个字符"
+                                               type="password"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-sm-3 col-xs-3 control-label">新密码</label>
+                                    <div class="col-md-9 col-sm-9 col-xs-9">
+                                        <input class="form-control" id="id_password" maxlength="12" name="newpassword"
+                                               title="最大长度不超过12个字符"
+                                               type="password"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 col-sm-3 col-xs-3 control-label"></label>
+                                    <div class="col-md-9 col-sm-9 col-xs-9">
+                                        <input type="submit" class="btn btn-info" value="修改"/>
+                                    </div>
+                                </div>
+                                <div style="border-top: 1px solid #999; padding-top:20px"
+                                     class="form-group">
+
+                                </div>
+                            </form>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<div class="footerv4-top">
+    <div class="container">
+        <ul class="bottom-links-agile">
+            <li>
+                <a href="{% url 'operation:index' %}">首页</a>
+            </li>
+            <li>
+                <a href="{% url 'operation:about' %}">关于我们</a>
+            </li>
+            <li>
+                <a href="{% url 'operation:shop' %}">书城</a>
+            </li>
+            <li>
+                <a href="{% url 'operation:contact' %}">联系我们</a>
+            </li>
+            <li>
+                {% if isLogin %}
+                    <a href="{% url 'user:center' %}" class="text-right">个人中心</a>
+                {% else %}
+                    <a href="{% url 'operation:login' %}" class="text-right">登录</a>
+                {% endif %}
+            </li>
+
+        </ul>
+
+
+        <div class="col-md-3 col-sm-6 footv4-left">
+            <h3>关于我们</h3>
+            <h4>
+                <a href="{% url 'operation:index' %}">美度图书</a>
+            </h4>
+            <p>美好度过阅读时光</p>
+
+
+        </div>
+        <div class="col-md-3 col-sm-6 footv4-content">
+            <h3>推荐类别</h3>
+            {#            #}
+            {#            ('youth', '青春'), ('art', '艺术'), ('fiction', '小说')] [('11', '测试1', datetime.date(2020, 4, 10)), ('511', '测试2', datetime.date(2020, 4, 10)), ('32162', '测试3',#}
+            {#datetime.date(2020, 4, 10)), ('6436', '测试4', datetime.date(2020, 4, 8))#}
+            <!--          根据推荐数生成类别-->
+            <ul class="v4-content">
+                {% for category in category_list %}
+                    <li>
+                        <a href="{% url 'operation:shop_categories' category.0 %}">{{ category.1 }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-3 footv4-left fv4-g3">
+            <h3>最新藏书</h3>
+            <ul class="v4-rel">
+                {% for book_info in last_book_info_list %}
+                    <li>
+                        <a href="{% url 'operation:single_product' book_info.0 %}">
+                            {{ book_info.1 }}
+                        </a>
+                        <p>{{ book_info.2 }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-3 footv4-left">
+            <!--          如果已经存在，那么直接返回详情页，否则装入预订单-->
+            <h3>找不到想要的?</h3>
+            <form action="{% url 'operation:wish' %}" method="post">
+                {% csrf_token %}
+                <input type="text" placeholder="书名" name="name" style="color: black;" required>
+                <input type="text" placeholder="作者" name="author" style="color: black;" required>
+                <input type="text" placeholder="更多书籍信息" name="other" style="color: black;" required>
+                <input type="submit" value="提交">
+            </form>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<div class="cpy-right">
+    <p>Copyright © 2020.Company name All rights reserved.
+    </p>
+</div>
+
+
+<script src="{% static 'js/jquery-2.2.3.min.js' %}"></script>
+
+
+<script src="{% static 'js/main.js' %}"></script>
+
+
+<script src="{% static 'js/minicart.js' %}"></script>
+<script>
+    chr.render();
+
+    chr.cart.on('new_checkout', function (evt) {
+        var items, len, i;
+
+        if (this.subtotal() > 0) {
+            items = this.items();
+
+            for (i = 0, len = items.length; i < len; i++) {
+            }
+        }
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $(".dropdown").hover(
+            function () {
+                $('.dropdown-menu', this).stop(true, true).slideDown("fast");
+                $(this).toggleClass('open');
+            },
+            function () {
+                $('.dropdown-menu', this).stop(true, true).slideUp("fast");
+                $(this).toggleClass('open');
+            }
+        );
+    });
+</script>
+
+
+<script src="{% static 'js/scrolling-nav.js' %}"></script>
+
+
+<script src="{% static 'js/move-top.js' %}"></script>
+<script src="{% static 'js/easing.js' %}"></script>
+<script>
+    jQuery(document).ready(function ($) {
+        $(".scroll").click(function (event) {
+            event.preventDefault();
+
+            $('html,body').animate({
+                scrollTop: $(this.hash).offset().top
+            }, 1000);
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        /*
+        var defaults = {
+            containerID: 'toTop', // fading element id
+            containerHoverID: 'toTopHover', // fading element hover id
+            scrollSpeed: 1200,
+            easingType: 'linear'
+        };
+        */
+
+        $().UItoTop({
+            easingType: 'easeOutQuart'
+        });
+
+    });
+</script>
+<script src="{% static 'js/SmoothScroll.min.js' %}"></script>
+
+
+<script src="{% static 'js/bootstrap.js' %}"></script>
+
+
+<a href="#" id="toTop" style="display: none;"><span id="toTopHover"></span>To Top</a></body>
+</html>

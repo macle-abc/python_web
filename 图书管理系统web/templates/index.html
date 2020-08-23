@@ -1,0 +1,657 @@
+<html>
+{% load staticfiles %}
+<head>
+    <title>美度图书</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="keywords" content="">
+
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+
+    <link href="{% static 'css/bootstrap.css' %}" type="text/css" rel="stylesheet" media="all">
+    <link href="{% static 'css/shop.css' %}" type="text/css" rel="stylesheet" media="all">
+    <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="all">
+    <link href="{% static 'css/footer4.css' %}" type="text/css" rel="stylesheet" media="all">
+    <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" charset="UTF-8"
+          href="https://translate.googleapis.com/translate_static/css/translateelement.css">
+    <link href="http://fonts.googleapis.com/css?family=Fredericka+the+Great" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Merriweather+Sans:300,300i,400,400i,700,700i,800,800i"
+          rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i"
+          rel="stylesheet">
+</head>
+
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" class="">
+<div style="position:fixed;top:0px;left:0px;width:0;height:0;" id="scrollzipPoint"></div>
+<div id="home">
+    <nav class="navbar navbar-default navbar-fixed-top top-nav-collapse">
+        <div class="main-nav">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">美度图书</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <h1>
+                        <a class="navbar-brand" href="{% url 'operation:index' %}">美度图书</a>
+                    </h1>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-ex1-collapse nav-right">
+                    <ul class="nav navbar-nav navbar-left cl-effect-15">
+                        <li class="hidden active">
+                            <a class="page-scroll" href="#page-top"></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'operation:index' %}">首页</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'operation:about' %}">关于我们</a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle effect-3" data-toggle="dropdown">书城
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu" style="display: none;">
+                                <li>
+                                    <a href="{% url 'operation:shop' %}">书目</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'operation:checkout' %}">心愿单</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'operation:contact' %}">联系我们</a>
+                        </li>
+                        {% if isLogin %}
+                            <li class="dropdown">
+
+                            <a href="#" class="dropdown-toggle effect-3" data-toggle="dropdown">{{ userInfo.nickname }}
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu" style="display: none;">
+                                <li>
+                                    {#                                    用户头像#}
+                                    <img src="{{ userInfo.avatar.url }}" style="max-width: 50%;" class="text-center img-circle img-responsive"/>
+                                </li>
+                                <li>
+                                    <a href="{% url 'user:center' %}">个人信息</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'operation:rental' 1 %}">租借信息</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'user:logout' %}">登出</a>
+                                </li>
+                            </ul>
+                        </li>
+                        {% else %}
+                            <li>
+                                <a href="{% url 'operation:login' %}" title="登录 &amp; 注册">
+                                <span class="fa fa-user nav-icon" aria-hidden="true"></span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+
+                    <div class="search-bar-agileits">
+                        <div class="cd-main-header">
+                            <ul class="cd-header-buttons">
+                                <li>
+                                    <a class="cd-search-trigger" href="#cd-search">
+                                        <span></span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <div id="cd-search" class="cd-search">
+                            <form action="{% url 'operation:search' %} " method="post">
+                                {% csrf_token %}
+                                <input name="search" type="search" placeholder="请输入书名或作者">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+    </nav>
+
+
+    <div class="banner-bg-agileits">
+
+        <div class="banner-text">
+            <div class="container">
+                <p class="b-txt">美度</p>
+                <h2 class="title">
+                    图书
+                </h2>
+                <ul class="banner-txt">
+                    <li>分享</li>
+                    <li>探索</li>
+                    <li>放大</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="about-sec section" id="about">
+        <div class="container">
+
+            <div class="col-md-7 about-left-grid">
+                <div class="inner-about2">
+                    <h4>美度图书馆</h4>
+                    <p> 我如鱼 书如水 国图如海</p>
+                    <h5>图书目录</h5>
+                    <!--          应该是可以点击进入的-->
+                    <!--青春 小说 文学 艺术 教程 动漫/幽默 娱乐时尚 旅游 地图/地理 生活 婚恋 育儿/成长 保健/心理健康 体育 励志 管理 经济 法律 政治/军事 哲学/宗教 社会科学 古籍 文化 历史 传记 少儿 中小学教辅 外语 考试 教材 工具书 科普读物 计算机/网络 医学 科学技术          -->
+                    <ul class="about-list">
+                        <li>
+                            <i class="fa fa-play-circle-o" aria-hidden="true"></i><a
+                                href="{% url 'operation:shop_categories' 'youth' %}">青春</a>
+                        </li>
+                        <li>
+                            <i class="fa fa-play-circle-o" aria-hidden="true"></i>
+                            <a href="{% url 'operation:shop_categories' 'fiction' %}">小说</a>
+                        </li>
+                        <li>
+                            <i class="fa fa-play-circle-o" aria-hidden="true"></i>
+                            <a href="{% url 'operation:shop_categories' 'literature' %}">文学</a>
+                        </li>
+                        <li>
+                            <i class="fa fa-play-circle-o" aria-hidden="true"></i>
+                            <a href="{% url 'operation:shop_categories' 'art' %}">艺术</a>
+                        </li>
+                        <li>
+                            <i class="fa fa-play-circle-o" aria-hidden="true"></i>
+                            <a href="{% url 'operation:shop_categories' 'tutorial' %}">教程</a>
+                        </li>
+                        <li>
+                            <i class="fa fa-play-circle-o" aria-hidden="true"></i>
+                            <a href="{% url 'operation:shop_categories' 'humor' %}">动漫/幽默</a>
+                        </li>
+                        <li>
+                            <i class="fa fa-play-circle-o" aria-hidden="true"></i>
+                            <a href="{% url 'operation:shop_categories' 'fashion' %}">娱乐时尚</a>
+                        </li>
+
+                    </ul>
+                    <a href="{% url 'operation:shop' %}">更多...</a>
+                </div>
+
+                <div class="principles-grids principles-grids1">
+                    <div class="abt-btm agileits w3layouts aos-init aos-animate">
+                        <div class="col-md-6 col-sm-6 agileits elite-services1 w3layouts bottom-gds" data-aos="fade-up">
+                            <div class="bott-img agileits w3layouts">
+                                <div class="icon-holder agileits w3layouts">
+                                    <span class="fa fa-book agileits w3layouts service-icon" aria-hidden="true"></span>
+                                </div>
+                                <h4 class="mission agileits w3layouts">
+                                    <a href="{% url 'operation:shop_categories' 'tourism' %}">旅游</a></h4>
+                                <div class="description agileits w3layouts">
+                                    <a href="{% url 'operation:shop' %}">更多...</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 agileits elite-services2 w3layouts bottom-gds"
+                             data-aos="fade-down">
+                            <div class="bott-img bott-img1 agileits w3layouts">
+                                <div class="icon-holder agileits w3layouts">
+                                    <span class="fa fa-book agileits w3layouts service-icon" aria-hidden="true"></span>
+                                </div>
+                                <h4 class="mission agileits w3layouts">
+                                    <a href="{% url 'operation:shop_categories' 'geography' %}">地图/地理</a></h4>
+                                <div class="description agileits w3layouts">
+                                    <a href="{% url 'operation:shop' %}">更多...</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-md-5 about-right-grid"></div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+
+    <div class="about-bottom section">
+        <div class="container-fluid">
+            <h4 class="rad-txt">
+                <span class="abtxt1">美好</span>
+                <span class="abtext">阅读</span>
+            </h4>
+
+            <div class="col-md-6 about-bottom-right">
+                <p class="abt-p">书的告白：我希望尽管我已满脸皱纹,经历了岁月沧桑,你还依然把我当成手心里的宝
+                </p>
+                <div class="col-md-6 col-sm-6 col-xs-6 services-w3ls">
+                    <div class="ab1">
+                        <div class="col-md-3 col-sm-3 col-xs-3 ab1-icon">
+                            <span class="fa fa-book" aria-hidden="true"></span>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-9 ab1-text">
+                            <!-- 生活 婚恋 育儿/成长 保健/心理健康 体育 励志 管理 经济 法律 政治/军事 哲学/宗教 社会科学 古籍 文化 历史 传记 少儿 中小学教辅 外语 考试 教材 工具书 科普读物 计算机/网络 医学 科学技术    -->
+                            <h5><a href="{% url 'operation:shop_categories' 'life' %}">生活</a></h5>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="ab1">
+                        <div class="col-md-3 col-sm-3 col-xs-3 ab1-icon">
+                            <span class="fa fa-book" aria-hidden="true"></span>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-9 ab1-text">
+                            <h5><a href="{% url 'operation:shop_categories' 'love' %}">婚恋</a></h5>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="ab1">
+                        <div class="col-md-3 col-sm-3 col-xs-3 ab1-icon">
+                            <span class="fa fa-book" aria-hidden="true"></span>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-9 ab1-text">
+                            <h5><a href="{% url 'operation:shop_categories' 'growing' %}">育儿/成长</a></h5>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="ab1">
+                        <div class="col-md-3 col-sm-3 col-xs-3 ab1-icon">
+                            <span class="fa fa-book" aria-hidden="true"></span>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-9 ab1-text">
+                            <h5><a href="{% url 'operation:shop_categories' 'health_care' %}">保健/心理健康</a></h5>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6 services-w3ls service2">
+                    <div class="ab1">
+                        <div class="col-md-3 col-sm-3 col-xs-3 ab1-icon">
+                            <span class="fa fa-book" aria-hidden="true"></span>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-9 ab1-text">
+                            <h5><a href="{% url 'operation:shop_categories' 'physical_culture' %}">体育</a></h5>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="ab1">
+                        <div class="col-md-3 col-sm-3 col-xs-3 ab1-icon">
+                            <span class="fa fa-book" aria-hidden="true"></span>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-9 ab1-text">
+                            <h5><a href="{% url 'operation:shop_categories' 'encouragement' %}">励志</a></h5>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="ab1">
+                        <div class="col-md-3 col-sm-3 col-xs-3 ab1-icon">
+                            <span class="fa fa-book" aria-hidden="true"></span>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-9 ab1-text">
+                            <h5><a href="{% url 'operation:shop_categories' 'management' %}">管理</a></h5>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="ab1">
+                        <div class="col-md-3 col-sm-3 col-xs-3 ab1-icon">
+                            <span class="fa fa-book" aria-hidden="true"></span>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-9 ab1-text">
+                            <h5><a href="{% url 'operation:shop_categories' 'economics' %}">经济</a></h5>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="col-md-6 home-about2">
+
+                <div class="col-md-6 col-sm-6 col-xs-6 bg-right"></div>
+
+
+                <div class="col-md-6 col-sm-6 col-xs-6 w3ls-section  stats">
+                    <div class="stats-aboutinfo services-main">
+                        <div class="agileits_w3layouts-stats-grids text-center">
+                            <div class="stats-icon">
+                                <span class="fa fa-book" aria-hidden="true"></span>
+                            </div>
+                            <div class="stats-right">
+                                <h6>藏书数目</h6>
+                                <!--                藏书数目-->
+                                <div class="numscroller numscroller-big-bottom roller-title-number-1 scrollzip isShown"
+                                     data-slno="1"
+                                     data-min="0" data-max="221073" data-delay=".5"
+                                     data-increment="300">{{ books_count }}
+                                </div>
+
+                            </div>
+                            <div class="clearfix"></div>
+
+                        </div>
+                        <div class="agileits_w3layouts-stats-grids text-center">
+                            <div class="stats-icon">
+                                <span class="fa fa-university" aria-hidden="true"></span>
+                            </div>
+                            <div class="stats-right">
+                                <h6>藏书类别</h6>
+                                <!--                类别数目-->
+                                <div class="numscroller numscroller-big-bottom roller-title-number-2 scrollzip isShown"
+                                     data-slno="2"
+                                     data-min="0" data-max="780" data-delay=".5"
+                                     data-increment="50">{{ books_categories_count }}
+                                </div>
+
+                            </div>
+                            <div class="clearfix"></div>
+
+
+                        </div>
+
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+
+            <div class="clearfix"></div>
+        </div>
+
+    </div>
+
+
+    <div class="reviews section" id="testimonials">
+        <div class="container">
+            <h4 class="rad-txt">
+                <span class="abtxt1">图书</span>
+                <span class="abtext">推荐</span>
+            </h4>
+            <div id="Carousel" class="slide carousel">
+
+                <!--日推荐八本书-->
+                <div class="carousel-inner">
+                    <div class="item">
+                        <div class="row">
+                            {% for book_info in booksInfoList %}
+                              {% if forloop.counter0|divisibleby:2 %}
+                            <div class="col-md-6  testi-main">
+                                <div class="testi-grids">
+                                    <div class="col-md-9 col-sm-9 col-xs-9 team-w3ls-txt">
+                                        <h6>{{ book_info.name }}</h6>
+                                        <p>{{ book_info.introduction }}</p>
+                                        <h5>{{ book_info.author }}</h5>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-3  img-testi">
+                                        <a href="{% url 'operation:single_product' book_info.id %}">
+                                            <img class="img-responsive" src="{{ book_info.image.url }}" alt="" title="点击进入详情"></a>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                                {% else %}
+                            <div class="col-md-6  testi-main">
+                                <div class="testi-grids t2">
+                                    <div class="col-md-3 col-sm-3 col-xs-3 img-testi">
+                                        <a href="{% url 'operation:single_product' book_info.id %}">
+                                            <img class="img-responsive" src="{{ book_info.image.url }}" alt="" title="点击进入详情"></a>
+                                    </div>
+                                    <div class="col-md-9 col-sm-9 col-xs-9 team-w3ls-txt">
+                                        <h6>{{ book_info.name }}</h6>
+                                        <p>{{ book_info.introduction }}</p>
+                                        <h5>{{ book_info.author }}</h5>
+                                    </div>
+
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                    </div>
+
+                    <div class="item active">
+                        <div class="row">
+                            {% for book_info in booksInfoListActive %}
+                                {% if forloop.counter0|divisibleby:2 %}
+                            <div class="col-md-6  testi-main">
+                                <div class="testi-grids">
+                                    <div class="col-md-9 col-sm-9 col-xs-9 team-w3ls-txt">
+                                        <h6>{{ book_info.name }}</h6>
+                                        <p>{{ book_info.introduction }}</p>
+                                        <h5>{{ book_info.author }}</h5>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-3 img-testi">
+                                         <a href="{% url 'operation:single_product' book_info.id %}">
+                                        <img class="img-responsive" src="{{ book_info.image.url }}" alt="" title="点击进入详情">
+                                         </a>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                                {% else %}
+                            <div class="col-md-6 testi-main">
+                                <div class="testi-grids t2">
+                                    <div class="col-md-3 col-sm-3 col-xs-3 img-testi">
+                                        <a href="{% url 'operation:single_product' book_info.id %}">
+                                        <img class="img-responsive" src="{{ book_info.image.url }}" alt="" title="点击进入详情">
+                                        </a>
+                                    </div>
+                                    <div class="col-md-9 col-sm-9 col-xs-9 team-w3ls-txt">
+                                        <h6>{{ book_info.name }}</h6>
+                                        <p>{{ book_info.introduction }}</p>
+                                        <h5>{{ book_info.author }}</h5>
+                                    </div>
+
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </div>
+                {% if booksInfoListLength > 2 %}
+                    <a data-slide="prev" href="#Carousel" class="left carousel-control">‹</a>
+                    <a data-slide="next" href="#Carousel" class="right carousel-control">›</a>
+                {% endif %}
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+
+<div class="footerv4-top">
+    <div class="container">
+        <ul class="bottom-links-agile">
+            <li>
+                <a href="{% url 'operation:index' %}">首页</a>
+            </li>
+            <li>
+                <a href="{% url 'operation:about' %}">关于我们</a>
+            </li>
+            <li>
+                <a href="{% url 'operation:shop' %}">书城</a>
+            </li>
+            <li>
+                <a href="{% url 'operation:contact' %}">联系我们</a>
+            </li>
+            <li>
+                {% if isLogin %}
+                    <a href="{% url 'user:center' %}" class="text-right">个人中心</a>
+                {% else %}
+                    <a href="{% url 'operation:login' %}" class="text-right">登录</a>
+                {% endif %}
+            </li>
+
+        </ul>
+
+
+        <div class="col-md-3 col-sm-6 footv4-left">
+            <h3>关于我们</h3>
+            <h4>
+                <a href="{% url 'operation:index' %}">美度图书</a>
+            </h4>
+            <p>美好度过阅读时光</p>
+
+
+        </div>
+        <div class="col-md-3 col-sm-6 footv4-content">
+            <h3>推荐类别</h3>
+            {#            #}
+            {#            ('youth', '青春'), ('art', '艺术'), ('fiction', '小说')] [('11', '测试1', datetime.date(2020, 4, 10)), ('511', '测试2', datetime.date(2020, 4, 10)), ('32162', '测试3',#}
+            {#datetime.date(2020, 4, 10)), ('6436', '测试4', datetime.date(2020, 4, 8))#}
+            <!--          根据推荐数生成类别-->
+            <ul class="v4-content">
+                {% for category in category_list %}
+                    <li>
+                        <a href="{% url 'operation:shop_categories' category.0 %}">{{ category.1 }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-3 footv4-left fv4-g3">
+            <h3>最新藏书</h3>
+            <ul class="v4-rel">
+                {% for book_info in last_book_info_list %}
+                    <li>
+                        <a href="{% url 'operation:single_product' book_info.0 %}">
+                            {{ book_info.1 }}
+                        </a>
+                        <p>{{ book_info.2 }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-3 footv4-left">
+            <!--          如果已经存在，那么直接返回详情页，否则装入预订单-->
+            <h3>找不到想要的?</h3>
+            <form action="{% url 'operation:wish' %}" method="post">
+                {% csrf_token %}
+                <input type="text" placeholder="书名" name="name" style="color: black;" required>
+                <input type="text" placeholder="作者" name="author" style="color: black;" required>
+                <input type="text" placeholder="更多书籍信息" name="other" style="color: black;" required>
+                <input type="submit" value="提交">
+            </form>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<div class="cpy-right">
+    <p>Copyright © 2020.Company name All rights reserved.
+    </p>
+</div>
+</div>
+
+
+<script src="{% static 'js/jquery-2.2.3.min.js' %}"></script>
+
+
+<script src="{% static 'js/main.js' %}"></script>
+
+
+<script src="{% static 'js/minicart.js' %}"></script>
+<script>
+    chr.render();
+
+    chr.cart.on('new_checkout', function (evt) {
+        var items, len, i;
+
+        if (this.subtotal() > 0) {
+            items = this.items();
+
+            for (i = 0, len = items.length; i < len; i++) {
+            }
+        }
+    });
+</script>
+
+
+<script src="{% static 'js/scrolling-nav.js' %}"></script>
+
+
+<script>
+    $(document).ready(function () {
+        $(".dropdown").hover(
+            function () {
+                $('.dropdown-menu', this).stop(true, true).slideDown("fast");
+                $(this).toggleClass('open');
+            },
+            function () {
+                $('.dropdown-menu', this).stop(true, true).slideUp("fast");
+                $(this).toggleClass('open');
+            }
+        );
+    });
+</script>
+
+
+<script src="{% static 'js/move-top.js' %}"></script>
+<script src="{% static 'js/easing.js' %}"></script>
+<script>
+    jQuery(document).ready(function ($) {
+        $(".scroll").click(function (event) {
+            event.preventDefault();
+
+            $('html,body').animate({
+                scrollTop: $(this.hash).offset().top
+            }, 1000);
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        /*
+        var defaults = {
+            containerID: 'toTop', // fading element id
+            containerHoverID: 'toTopHover', // fading element hover id
+            scrollSpeed: 1200,
+            easingType: 'linear'
+        };
+        */
+
+        $().UItoTop({
+            easingType: 'easeOutQuart'
+        });
+
+    });
+</script>
+<script src="{% static 'js/SmoothScroll.min.js' %}"></script>
+<script src="{% static 'js/numscroller-1.0.js' %}"></script>
+<script src="{% static 'js/bootstrap.js' %}"></script>
+<a href="#" id="toTop" style="display: block;"><span id="toTopHover"></span>To Top</a>
+</body>
+</html>

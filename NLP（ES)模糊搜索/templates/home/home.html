@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            background-image: url("{% static 'image/bg.jpg' %}");
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            background-color: #CCCCCC;
+        }
+
+        div {
+            text-align: center;
+            margin: 5%;
+        }
+
+
+    </style>
+</head>
+<body>
+<div style="margin-top: 10%;">
+    <label>请输入你的问题</label>
+</div>
+<div>
+    <form action="{% url 'index' %}" method="post">
+        {% csrf_token %}
+        <div>
+            <input type="text" name="question" value="{{ question }}" style="width: 400px"/>
+        </div>
+        <div>
+            <button type="submit">语义解析</button>
+        </div>
+    </form>
+    <div>
+    </div>
+    <textarea style="width: 400px">{{ result }}
+        </textarea>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,530 @@
+<html>
+{% load staticfiles %}
+<head>
+    <title>美度图书</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="keywords" content="">
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <!-- Custom Theme files -->
+    <link href="{% static 'css/bootstrap.css' %}" type="text/css" rel="stylesheet" media="all">
+    <!-- shop css -->
+    <link href="{% static 'css/shop.css' %}" type="text/css" rel="stylesheet" media="all">
+    <!-- checkout css -->
+    <link href="{% static 'css/checkout.css' %}" type="text/css" rel="stylesheet" media="all">
+    <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="all">
+    <!-- font-awesome icons -->
+    <link href="{% static 'css/footer4.css' %}" type="text/css" rel="stylesheet" media="all">
+    <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet">
+    <!-- //Custom Theme files -->
+    <!-- online-fonts -->
+    <!-- logo -->
+    <link href="http://fonts.googleapis.com/css?family=Fredericka+the+Great" rel="stylesheet">
+    <!-- titles -->
+    <link href="http://fonts.googleapis.com/css?family=Merriweather+Sans:300,300i,400,400i,700,700i,800,800i"
+          rel="stylesheet">
+    <!-- body -->
+    <link href="http://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i"
+          rel="stylesheet">
+    <!-- //online-fonts -->
+</head>
+
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+<div id="home">
+    <!-- header -->
+    <!-- navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top top-nav-collapse">
+        <div class="main-nav">
+            <div class="container">
+
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">美度图书</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <h1>
+                        <a class="navbar-brand" href="{% url 'operation:index' %}">美度图书</a>
+                    </h1>
+                </div>
+
+                <div class="collapse navbar-collapse navbar-ex1-collapse nav-right">
+                    <ul class="nav navbar-nav navbar-left cl-effect-15">
+
+                        <li class="hidden active">
+                            <a class="page-scroll" href="#page-top"></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'operation:index' %}">首页</a>
+                        </li>
+                        <li class="">
+                            <a href="{% url 'operation:about' %}">关于我们</a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle effect-3" data-toggle="dropdown">书城
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu" style="display: none;">
+                                <li>
+                                    <a href="{% url 'operation:shop' %}">书目</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'operation:checkout' %}">心愿单</a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'operation:contact' %}">联系我们</a>
+                        </li>
+                        {% if isLogin %}
+                            <li class="dropdown">
+
+                                <a href="#" class="dropdown-toggle effect-3"
+                                   data-toggle="dropdown">{{ userInfo.nickname }}
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu" style="display: none;">
+                                    <li>
+                                        {#                                    用户头像#}
+                                        <img src="{{ userInfo.avatar.url }}" style="max-width: 50%;"
+                                             class="text-center img-circle img-responsive"/>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'user:center' %}">个人信息</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'operation:rental' 1 %}">租借信息</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'user:logout' %}">登出</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="{% url 'operation:login' %}" title="登录 &amp; 注册">
+                                    <span class="fa fa-user nav-icon" aria-hidden="true"></span>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                    </ul>
+
+                    <div class="search-bar-agileits">
+                        <div class="cd-main-header">
+                            <ul class="cd-header-buttons">
+                                <li>
+                                    <a class="cd-search-trigger" href="#cd-search">
+                                        <span></span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <div id="cd-search" class="cd-search">
+                            <form action="{% url 'operation:search' %}" method="post">
+                                {% csrf_token %}
+                                <input name="search" type="search" placeholder="请输入书名或作者">
+                            </form>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+    </nav>
+    <!-- //navbar ends here -->
+    <!-- banner -->
+    <div class="banner-bg-inner">
+
+        <div class="banner-text-inner">
+            <div class="container">
+                <h2 class="title-inner">
+                    图书世界
+                </h2>
+
+            </div>
+        </div>
+
+    </div>
+    <!-- //banner -->
+    <!-- breadcrumbs -->
+    <div class="crumbs text-center">
+        <div class="container">
+            <div class="row">
+                <ul class="btn-group btn-breadcrumb bc-list">
+                    <li class="btn btn1">
+                        <a href="{% url 'operation:index' %}">
+                            <i class="glyphicon glyphicon-home"></i>
+                        </a>
+                    </li>
+                    <li class="btn btn2">
+                        <a href="{% url 'operation:shop' %}">书目</a>
+                    </li>
+                    <li class="btn btn3">
+                        <a href="#">心愿单</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--checkout-->
+    <div class="innerf-pages section">
+        <div class="container">
+            <div class="privacy about">
+                <h4 class="rad-txt">
+                    <span class="abtxt1">查看</span>
+                    <span class="abtext">心愿单</span>
+                </h4>
+
+                <div class="checkout-right">
+                    <h4>共计
+                        <span id="num">{{ all_num }} 种图书</span>
+                    </h4>
+                    <table class="timetable_sub table-responsive">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>图书</th>
+                            <th>数量</th>
+                            <th>书名</th>
+                            <th>移除</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for bookInfo in bookInfos %}
+                        <tr class="rem{{ forloop.counter }}">
+                            <td class="invert">{{ forloop.counter }}</td>
+                            <td class="invert-image" style="max-width: 150px;">
+                                <input type="hidden" form="process" value="{{ bookInfo.ISBN }}" name="ISBN{{ forloop.counter }} "/>
+                                <a href="{% url 'operation:single_product' bookInfo.ISBN %}">
+                                    <img src="{{ bookInfo.imageUrl }}" alt=" " class="img-responsive">
+                                </a>
+                            </td>
+                            <td class="invert">
+                                <div class="quantity">
+                                    <div class="quantity-select">
+                                        <div class="entry value-minus">&nbsp;</div>
+                                        <input type="hidden" form="process" class="count" value="{{ bookInfo.count }}" name="count{{ forloop.counter }}">
+                                        <div class="entry value">
+                                            {#                                                    数量#}
+                                            <span>{{ bookInfo.count }}</span>
+                                        </div>
+                                        <div class="entry value-plus active">&nbsp;</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="invert">{{ bookInfo.name }}</td>
+
+                            {#                                    <td class="invert">$100.00</td>#}
+                            <td class="invert">
+                                <div class="rem">
+                                    <a href="{% url 'operation:delete' bookInfo.ISBN %}">
+                                    <div class="close{{ forloop.counter }}"></div>
+                                    </a>
+                                </div>
+
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+
+                        </tbody>
+                    </table>
+                </div>
+                {% if all_num != 0 %}
+
+                    <form action="{% url 'operation:process' userInfo.account %}" method="post"
+                         class="creditly-card-form shopf-sear-headinfo_form" id="process" onsubmit="changeValue()">
+                        {% csrf_token %}
+    {#                    <input type="hidden" name="json" value="">#}
+                        <button class="submit check_out">确认租借</button>
+                    </form>
+                {% endif %}
+
+            </div>
+
+        </div>
+    </div>
+    <!--//checkout-->
+    <!-- footer -->
+    <div class="footerv4-top">
+        <div class="container">
+            <ul class="bottom-links-agile">
+                <li>
+                    <a href="{% url 'operation:index' %}">首页</a>
+                </li>
+                <li>
+                    <a href="{% url 'operation:about' %}">关于我们</a>
+                </li>
+                <li>
+                    <a href="{% url 'operation:shop' %}">书城</a>
+                </li>
+                <li>
+                    <a href="{% url 'operation:contact' %}">联系我们</a>
+                </li>
+                <li>
+                    {% if isLogin %}
+                        <a href="{% url 'user:center' %}" class="text-right">个人中心</a>
+                    {% else %}
+                        <a href="{% url 'operation:login' %}" class="text-right">登录</a>
+                    {% endif %}
+                </li>
+
+            </ul>
+
+
+            <div class="col-md-3 col-sm-6 footv4-left">
+                <h3>关于我们</h3>
+                <h4>
+                    <a href="{% url 'operation:index' %}">美度图书</a>
+                </h4>
+                <p>美好度过阅读时光</p>
+
+
+            </div>
+            <div class="col-md-3 col-sm-6 footv4-content">
+                <h3>推荐类别</h3>
+                {#            #}
+                {#            ('youth', '青春'), ('art', '艺术'), ('fiction', '小说')] [('11', '测试1', datetime.date(2020, 4, 10)), ('511', '测试2', datetime.date(2020, 4, 10)), ('32162', '测试3',#}
+                {#datetime.date(2020, 4, 10)), ('6436', '测试4', datetime.date(2020, 4, 8))#}
+                <!--          根据推荐数生成类别-->
+                <ul class="v4-content">
+                    {% for category in category_list %}
+                        <li>
+                            <a href="{% url 'operation:shop_categories' category.0 %}">{{ category.1 }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-3 footv4-left fv4-g3">
+                <h3>最新藏书</h3>
+                <ul class="v4-rel">
+                    {% for book_info in last_book_info_list %}
+                        <li>
+                            <a href="{% url 'operation:single_product' book_info.0 %}">
+                                {{ book_info.1 }}
+                            </a>
+                            <p>{{ book_info.2 }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-3 footv4-left">
+                <!--          如果已经存在，那么直接返回详情页，否则装入预订单-->
+                <h3>找不到想要的?</h3>
+                <form action="{% url 'operation:wish' %}" method="post">
+                    {% csrf_token %}
+                    <input type="text" placeholder="书名" name="name" style="color: black;" required>
+                    <input type="text" placeholder="作者" name="author" style="color: black;" required>
+                    <input type="text" placeholder="更多书籍信息" name="other" style="color: black;" required>
+                    <input type="submit" value="提交">
+                </form>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <div class="cpy-right">
+        <p>Copyright © 2020.Company name All rights reserved.
+        </p>
+    </div>
+</div>
+<!-- //home -->
+
+<!-- Common js -->
+<script src="{% static 'js/jquery-2.2.3.min.js' %}"></script>
+<!--// Common js -->
+<!-- cart-js -->
+<script src="{% static 'js/minicart.js' %}"></script>
+<script>
+    chr.render();
+
+    chr.cart.on('new_checkout', function (evt) {
+        var items, len, i;
+
+        if (this.subtotal() > 0) {
+            items = this.items();
+
+            for (i = 0, len = items.length; i < len; i++) {
+            }
+        }
+    });
+</script>
+{#<div id="staplesbmincart">#}
+{#    <form method="post" class="sbmincart-empty" action="checkout.html" target="">#}
+{#        <button type="button" class="sbmincart-closer">×</button>#}
+{#        <ul></ul>#}
+{#        <div class="sbmincart-footer"><p class="sbmincart-empty-text">Your shopping cart is empty</p></div>#}
+{#        <input type="hidden" name="cmd" value="_cart"> <input type="hidden" name="upload" value="1"> <input#}
+{#            type="hidden" name="bn" value="sbmincart_AddToCart_WPS_US"></form>#}
+{#</div>#}
+<!-- //cart-js -->
+<!--quantity-->
+<script>
+    $('.value-plus').on('click', function () {
+        var divUpd = $(this).parent().find('.value'),
+            newVal = parseInt(divUpd.text(), 10) + 1;
+        divUpd.text(newVal);
+        {#count = document.getElementById()#}
+    });
+
+    $('.value-minus').on('click', function () {
+        var divUpd = $(this).parent().find('.value'),
+            newVal = parseInt(divUpd.text(), 10) - 1;
+        if (newVal >= 1) divUpd.text(newVal);
+    });
+</script>
+<!--quantity-->
+<!-- FadeOut-Script -->
+{#    需要模板生成js代码#}
+{% for bookInfo in bookInfos %}
+<script>
+    $(document).ready(function (c) {
+        $('.close{{ forloop.counter }}').on('click', function (c) {
+            $('.rem{{ forloop.counter }}').fadeOut('slow', function (c) {
+                $('.rem{{ forloop.counter }}').remove();
+                num = document.getElementById("num");
+                count = Number(num.innerText['0']) - 1;
+                num.innerText = count + " 种图书";
+            });
+        });
+    });
+</script>
+{% endfor %}
+{#<script>#}
+{#    $(document).ready(function (c) {#}
+{#        $('.close2').on('click', function (c) {#}
+{#            $('.rem2').fadeOut('slow', function (c) {#}
+{#                $('.rem2').remove();#}
+{#                num = document.getElementById("num")#}
+{#                count = Number(num.innerText['0']) - 1#}
+{#                num.innerText = count + " 种图书"#}
+{#            });#}
+{#        });#}
+{#    });#}
+{#</script>#}
+{#    <script>#}
+{#        $(document).ready(function (c) {#}
+{#            $('.close2').on('click', function (c) {#}
+{#                $('.rem2').fadeOut('slow', function (c) {#}
+{#                    $('.rem2').remove();#}
+{#                });#}
+{#            });#}
+{#        });#}
+{#    </script>#}
+{#    <script>#}
+{#        $(document).ready(function (c) {#}
+{#            $('.close3').on('click', function (c) {#}
+{#                $('.rem3').fadeOut('slow', function (c) {#}
+{#                    $('.rem3').remove();#}
+{#                });#}
+{#            });#}
+{#        });#}
+{#    </script>#}
+<!--// FadeOut-Script -->
+
+<!-- dropdown nav -->
+<script>
+    $(document).ready(function () {
+        $(".dropdown").hover(
+            function () {
+                $('.dropdown-menu', this).stop(true, true).slideDown("fast");
+                $(this).toggleClass('open');
+            },
+            function () {
+                $('.dropdown-menu', this).stop(true, true).slideUp("fast");
+                $(this).toggleClass('open');
+            }
+        );
+    });
+</script>
+<!-- //dropdown nav -->
+<!--search jQuery-->
+<script src="{% static 'js/main.js' %}"></script>
+<!--search jQuery-->
+
+<!-- Scrolling Nav JavaScript -->
+<script src="{% static 'js/scrolling-nav.js' %}"></script>
+<!-- //fixed-scroll-nav-js -->
+<!--//scripts-->
+<!-- start-smooth-scrolling -->
+<script src="{% static 'js/move-top.js' %}"></script>
+<script src="{% static 'js/easing.js' %}"></script>
+<script>
+    jQuery(document).ready(function ($) {
+        $(".scroll").click(function (event) {
+            event.preventDefault();
+
+            $('html,body').animate({
+                scrollTop: $(this.hash).offset().top
+            }, 1000);
+        });
+    });
+</script>
+<!-- //end-smooth-scrolling -->
+<!-- smooth-scrolling-of-move-up -->
+<script>
+    $(document).ready(function () {
+        /*
+        var defaults = {
+            containerID: 'toTop', // fading element id
+            containerHoverID: 'toTopHover', // fading element hover id
+            scrollSpeed: 1200,
+            easingType: 'linear'
+        };
+        */
+
+        $().UItoTop({
+            easingType: 'easeOutQuart'
+        });
+
+    });
+</script>
+<script src="{% static 'js/SmoothScroll.min.js' %}"></script>
+<!-- //smooth-scrolling-of-move-up -->
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="{% static 'js/bootstrap.js' %}"></script>
+ <script>
+                        function changeValue() {
+                            l = document.getElementsByClassName('count');
+                            for (var index = 0; index != l.length; ++index)
+                            {
+                                {#num = Number(l[index].parentElement.childNodes[3].innerText);#}
+                                {#console.log(num)#}
+                                {#l[index].setAttribute('value', num);#}
+                                if (l[index].parentElement.children[2].childElementCount == 1)
+                                {
+                                    num = Number(l[index].parentElement.children[2].children[0].innerHTML)
+                                }
+                                else
+                                {
+                                    num = Number(l[index].parentElement.children[2].innerText);
+                                }
+                                console.log(num, l[index]);
+                                l[index].setAttribute('value', num);
+                            }
+                        }
+                     </script>
+
+<a href="#" id="toTop" style="display: block;"><span id="toTopHover"></span>To Top</a></body>
+</html>
